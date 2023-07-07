@@ -1,4 +1,6 @@
 import express from 'express';
+import colors from 'colors';
+
 import products from './data/products.js';
 const port = 5000;
 
@@ -17,4 +19,6 @@ app.get('/api/products/:id', (req, res) => {
   res.json(product);
 });
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () =>
+  console.log(`Server running on port ${port}`.yellow.bold)
+);
