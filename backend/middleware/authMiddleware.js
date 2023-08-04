@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
-import asyncHandler from './asyncHandler';
-import User from '../models/userModel';
 
-export const protect = asyncHandler(async (req, res, next) => {
+import asyncHandler from './asyncHandler.js';
+import User from '../models/userModel.js';
+
+const protect = asyncHandler(async (req, res, next) => {
   let token;
 
   // Read JWT from cookie
@@ -31,3 +32,5 @@ const admin = (req, res, next) => {
     throw new Error('Not authorized as admin');
   }
 };
+
+export { protect, admin };
