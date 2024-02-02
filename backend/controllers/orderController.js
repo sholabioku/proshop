@@ -27,13 +27,13 @@ const addOrderItems = asyncHandler(async (req, res) => {
       })),
       user: req.user._id,
       shippingAddress,
-      payemntMethod,
+      paymentMethod,
       itemsPrice,
       taxPrice,
       shippingPrice,
       totalPrice,
     });
-    const createdOrder = await Order.save();
+    const createdOrder = await order.save();
     res.status(201).json(createdOrder);
   }
 });
