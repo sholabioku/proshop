@@ -6,7 +6,7 @@ import { Button, Table } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 
-const ListOrderScreen = () => {
+const OrderListScreen = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
   console.log(orders);
 
@@ -67,4 +67,4 @@ const ListOrderScreen = () => {
   );
 };
 
-export default ListOrderScreen;
+export default OrderListScreen;
