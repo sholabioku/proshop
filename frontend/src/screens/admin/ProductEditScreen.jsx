@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Form, FormControl } from 'react-bootstrap';
+import { Button, Form, FormControl, FormGroup } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 import Message from '../../components/Message';
@@ -7,6 +7,7 @@ import Loader from '../../components/Loader';
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
+  useUploadProductImageMutation,
 } from '../../slices/productsApiSlice';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import FormContainer from '../../components/FormContainer';
@@ -31,6 +32,9 @@ const ProductEditScreen = () => {
 
   const [updateProduct, { isLoading: loadingUpdate }] =
     useUpdateProductMutation();
+
+  const [uploadProductImage, { isLoading: loadingUpload }] =
+    useUploadProductImageMutation();
 
   const navigate = useNavigate();
 
@@ -68,6 +72,18 @@ const ProductEditScreen = () => {
     }
   };
 
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
+    formData.append('image', e.target.files[0]);
+    try {
+      const res = await uploadProductImage(formData).unwrap();
+      toast.success(res.message);
+      setImage(res.image);
+    } catch (err) {
+      toast.error(err?.data?.message || err.message);
+    }
+  };
+
   return (
     <>
       <Link to='/admin/productlist' className='btn btn-light my-3'>
@@ -100,7 +116,20 @@ const ProductEditScreen = () => {
                 onChange={(e) => setPrice(e.target.value)}
               />
             </Form.Group>
-            {/* IMAGE INPUT PLACEHOLDER */}
+            <Form.Group controlId='image' className='my-2'>
+              <Form.Label>Image</Form.Label>
+              <Form.Control
+                type='text'
+                value={image}
+                placeholder='Enter image url'
+                onChange={(e) => setImage}
+              ></Form.Control>
+              <Form.Control
+                type='file'
+                label='Choose file'
+                onChange={uploadFileHandler}
+              ></Form.Control>
+            </Form.Group>
             <Form.Group controlId='brand' className='my-2'>
               <Form.Label>Brand</Form.Label>
               <Form.Control
